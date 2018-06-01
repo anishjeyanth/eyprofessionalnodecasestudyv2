@@ -4,19 +4,26 @@ class Configuration {
     static get Host() {
         let host = process.env.MONGO_HOST || DbConstants.MONGO_HOST;
 
-        return host;
+        return host.trim();
     }
 
     static get Port() {
         let portNumber = process.env.MONGO_PORT || DbConstants.MONGO_PORT;
 
-        return portNumber;
+        return portNumber.toString().trim();
     }
 
     static get DbName() {
         let dbName = process.env.MONGO_DB || DbConstants.MONGO_DB;
 
-        return dbName;
+        return dbName.trim();
+    }
+
+    static get IsStaticContentsEnabled() {
+        let staticContentsEnabled =
+            process.env.ENABLE_STATIC_CONTENTS || ServiceListenerConstants.DEFAULT_STATIC_CONTENTS_FLAG;
+
+        return staticContentsEnabled;
     }
 
     static get Credentials() {
@@ -33,6 +40,12 @@ class Configuration {
         let serviceListenerPort = process.env.SERVICE_PORT || ServiceListenerConstants.DEFAULT_SERVICE_PORT;
 
         return serviceListenerPort;
+    }
+
+    static get GlobalSecretKey() {
+        let secretKey = process.env.SECRET_KEY || ServiceListenerConstants.GLOBAL_SECRET_KEY;
+
+        return secretKey.trim();
     }
 
     static get ConnectionString() {

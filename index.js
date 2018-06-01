@@ -8,7 +8,10 @@ async function main() {
 
         const Configuration = getConfiguration();
         const portNumber = Configuration.ServiceListenerPort;
-        const hostingObject = new SingleInstanceHosting(portNumber);
+        const isStaticContentsEnabled = Configuration.IsStaticContentsEnabled;
+        const globalSecretKey = Configuration.GlobalSecretKey;
+        const hostingObject = new SingleInstanceHosting(
+            portNumber, isStaticContentsEnabled, globalSecretKey);
         const stopServer = async () => {
             await hostingObject.stopServer();
 

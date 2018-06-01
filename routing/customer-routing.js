@@ -1,9 +1,14 @@
 const express = require('express');
 const CustomerService = require('../services').CustomerService;
-const { ErrorConstants, GeneralConstants, HttpStatusConstants } = require('../constants');
+const { ErrorConstants, GeneralConstants, HttpStatusConstants, PushNotificationEventConstants } = require('../constants');
 
 class CustomerRouting {
-    constructor() {
+    constructor(pushNotificationsService) {
+        if (!pushNotificationsService) {
+            throw new Error(ErrorConstants.INVALID_ARGUMENTS);
+        }
+
+        this.pushNotificationsService = pushNotificationsService;
         this.router = express.Router();
         this.customerService = new CustomerService();
 
@@ -133,6 +138,11 @@ class CustomerRouting {
                             reason: ErrorConstants.BUSINESS_VALIDATION_FAILED
                         });
                 } else {
+                    if (this.pushNotificationsService) {
+                        this.pushNotificationsService.notifySocketClients(
+                            PushNotificationEventConstants.NEW_CUSTOMER, savedCustomerRecord);
+                    }
+
                     response
                         .status(HttpStatusConstants.CREATED)
                         .send(savedCustomerRecord);

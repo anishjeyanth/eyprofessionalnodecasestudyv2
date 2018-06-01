@@ -4,6 +4,7 @@ const GeneralConstants = require('./general-constants');
 const HttpStatusConstants = require('./http-status-constants');
 const ServiceUrlConstants = require('./service-url-constants');
 const ServiceListenerConstants = require('./service-listener-constants');
+const PushNotificationEventConstants = require('./push-notification-event-constants');
 
 module.exports = {
     ErrorConstants,
@@ -11,5 +12,6 @@ module.exports = {
     GeneralConstants,
     HttpStatusConstants,
     ServiceUrlConstants,
-    ServiceListenerConstants
+    ServiceListenerConstants,
+    PushNotificationEventConstants
 };
