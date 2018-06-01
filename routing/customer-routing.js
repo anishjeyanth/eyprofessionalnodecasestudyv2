@@ -30,8 +30,8 @@ class CustomerRouting {
         });
 
         this.router.get('/detail/:customerId', async (request, response) => {
-            let customerId = request.params.cusotmerId;
-            let validation = customerId && customer.cusotmerId >= GeneralConstants.MIN_CUSTOMER_ID;
+            let customerId = request.params.customerId;
+            let validation = customerId && customerId >= GeneralConstants.MIN_CUSTOMER_ID;
 
             if (!validation) {
                 response
@@ -124,7 +124,7 @@ class CustomerRouting {
                 };
 
                 let savedCustomerRecord = await this.customerService.saveCustomerRecord(customer);
-                let postSaveValidation = savedCustomerRecord && saveCustomerRecord["_id"]
+                let postSaveValidation = savedCustomerRecord && savedCustomerRecord["_id"]
 
                 if (!postSaveValidation) {
                     response
@@ -147,6 +147,10 @@ class CustomerRouting {
                     });
             }
         });
+    }
+
+    get Router() {
+        return this.router;
     }
 }
 

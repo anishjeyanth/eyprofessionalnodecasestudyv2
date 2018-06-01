@@ -1,12 +1,33 @@
-const CustomerService = require('./services').CustomerService;
+const { ServiceListenerConstants } = require('./constants');
+const { SingleInstanceHosting } = require('./hosting');
+const { setConfiguration, getConfiguration, ConfigurationTypes } = require('./configuration');
 
 async function main() {
-    let customerServiceObject = new CustomerService();
-    let filteredCustomers = await customerServiceObject.findCustomers('lan');
+    try {
+        setConfiguration(ConfigurationTypes.DEVELOPMENT);
 
-    for (let customer of filteredCustomers)
-        console.log(customer.customerId + ', ' + customer.name);
+        const Configuration = getConfiguration();
+        const portNumber = Configuration.ServiceListenerPort;
+        const hostingObject = new SingleInstanceHosting(portNumber);
+        const stopServer = async () => {
+            await hostingObject.stopServer();
+
+            console.log('Server Stopped Successfully ...');
+
+            process.exit();
+        };
+
+        await hostingObject.startServer();
+
+        console.log('Server Started Successfully ...');
+
+        process.on('exit', stopServer);
+        process.on('SIGTERM', stopServer);
+        process.on('SIGINT', stopServer);
+    } catch (error) {
+        console.log(`Error Occurred in Main(), Details : ${JSON.stringify(error)}`);
+    }
 }
 
 main()
-    .then(() => console.log('Test Completed!'));
+    .then(() => console.log('End of the application ... Press [Ctrl+c] to Close the application!'));

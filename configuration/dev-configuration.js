@@ -1,4 +1,4 @@
-const DbConstants = require('../constants').DbConstants;
+const { DbConstants, ServiceListenerConstants } = require('../constants');
 
 class Configuration {
     static get Host() {
@@ -27,6 +27,12 @@ class Configuration {
             userName,
             password
         };
+    }
+
+    static get ServiceListenerPort() {
+        let serviceListenerPort = process.env.SERVICE_PORT || ServiceListenerConstants.DEFAULT_SERVICE_PORT;
+
+        return serviceListenerPort;
     }
 
     static get ConnectionString() {
