@@ -30,8 +30,10 @@ class Configuration {
     }
 
     static get ConnectionString() {
-        let connectionString = `mongodb://${Configuration.Host}:${Configuration.Port}/${Configuraiton.dbName}`;
+        let connectionString = `mongodb://${Configuration.Host}:${Configuration.Port}/${Configuration.DbName}`;
 
         return connectionString;
     }
 }
+
+module.exports = Configuration;
