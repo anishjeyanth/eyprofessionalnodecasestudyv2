@@ -30,6 +30,10 @@ class Configuration {
         let userName = process.env.USER_NAME;
         let password = process.env.DB_PASSWORD;
 
+        if (password) {
+            password = Buffer.from(password, "base64").toString();
+        }
+
         return {
             userName,
             password
@@ -49,7 +53,14 @@ class Configuration {
     }
 
     static get ConnectionString() {
-        let connectionString = `mongodb://${Configuration.Host}:${Configuration.Port}/${Configuration.DbName}`;
+        let connectionString = '';
+        let validation = Configuration.Credentials &&
+            Configuration.Credentials.userName && Configuration.Credentials.password;
+
+        if (validation)
+            connectionString = `mongodb://${Configuration.Credentials.userName}:${Configuration.Credentials.password}@${Configuration.Host}:${Configuration.Port}/${Configuration.DbName}?ssl=true`;
+        else
+            connectionString = `mongodb://${Configuration.Host}:${Configuration.Port}/${Configuration.DbName}`;
 
         return connectionString;
     }

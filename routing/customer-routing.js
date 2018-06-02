@@ -19,10 +19,26 @@ class CustomerRouting {
         this.router.get('/', async (request, response) => {
             try {
                 let customers = await this.customerService.getCustomers();
+                let updatedCustomers = [];
+
+                for (let customer of customers) {
+                    let updatedCustomer = {
+                        id: customer.customerId,
+                        name: customer.name,
+                        address: customer.address,
+                        credit: customer.credit,
+                        status: customer.status,
+                        remarks: customer.remarks,
+                        email: customer.email,
+                        phone: customer.phone
+                    };
+
+                    updatedCustomers.push(updatedCustomer);
+                }
 
                 response
                     .status(HttpStatusConstants.OK)
-                    .send(customers);
+                    .send(updatedCustomers);
             } catch (error) {
                 console.log(`Error Occurred in handling HTTP Request ... Details : ${JSON.stringify(error)}`);
 
@@ -103,7 +119,7 @@ class CustomerRouting {
 
         this.router.post('/', async (request, response) => {
             let body = request.body;
-            let validation = body && body.customerId && body.name &&
+            let validation = body && (body.customerId || body.id) && body.name &&
                 body.address && body.credit && body.email && body.phone && body.remarks;
 
             if (!validation) {
@@ -118,7 +134,7 @@ class CustomerRouting {
 
             try {
                 let customer = {
-                    customerId: body.customerId,
+                    customerId: body.customerId || body.id,
                     name: body.name,
                     address: body.address,
                     credit: body.credit,
@@ -139,8 +155,19 @@ class CustomerRouting {
                         });
                 } else {
                     if (this.pushNotificationsService) {
+                        let notificationData = {
+                            id: savedCustomerRecord.customerId,
+                            name: savedCustomerRecord.name,
+                            address: savedCustomerRecord.address,
+                            credit: savedCustomerRecord.credit,
+                            status: savedCustomerRecord.status,
+                            remarks: savedCustomerRecord.remarks,
+                            email: savedCustomerRecord.email,
+                            phone: savedCustomerRecord.phone
+                        };
+
                         this.pushNotificationsService.notifySocketClients(
-                            PushNotificationEventConstants.NEW_CUSTOMER, savedCustomerRecord);
+                            PushNotificationEventConstants.NEW_CUSTOMER, notificationData);
                     }
 
                     response
