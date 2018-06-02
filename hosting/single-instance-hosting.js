@@ -35,9 +35,9 @@ class SingleInstanceHosting {
         this.enableCors();
 
         this.expressApp.use(bodyParser.json());
-        this.expressApp.use(ServiceUrlConstants.CUSTOMERS, expressJwt({
-            secret: this.jwtSecretKey
-        }));
+        // this.expressApp.use(ServiceUrlConstants.CUSTOMERS, expressJwt({
+        //     secret: this.jwtSecretKey
+        // }));
 
         this.expressApp.use(ServiceUrlConstants.CUSTOMERS, this.customerRouting.Router);
         this.expressApp.use(ServiceUrlConstants.AUTHENTICATION, this.authenticationRouting.Router);

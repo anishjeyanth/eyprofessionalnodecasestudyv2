@@ -10,7 +10,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-server": "set ENABLE_STATIC_CONTENTS=True && set SECRET_KEY=EYTrivandumKeralaIndia && set MONGO_SERVER=localhost && set MONGO_PORT=27017 && set MONGO_DB=eycrmsystemdbv2 && set SERVER_PORT=9090 && node ."
+    "start-server": "set ENABLE_STATIC_CONTENTS=True && set SECRET_KEY=EYTrivandumKeralaIndia && set MONGO_SERVER=localhost && set MONGO_PORT=27017 && set MONGO_DB=eycrmsystemdbv2 && set SERVER_PORT=9090 && node .",
+    "start-cloud-server": "set ENABLE_STATIC_CONTENTS=True && set SECRET_KEY=EYTrivandumKeralaIndia && set MONGO_HOST=iomegamongoserver.documents.azure.com && set MONGO_PORT=10255 && set MONGO_DB=eycrmsystemdbv2 && set USER_NAME=iomegamongoserver && set DB_PASSWORD=RzJ5V1ByalhPN3FnMDRDaGNRdjNZelB2clFuSmc0QVpINkRCY3BWUjBLY0gwVm8wOGlhYURiU1ltTnpiaUNZTmYySno4Z1pJdGxGZzJhN1RzV3o4aHc9PQ== && set SERVER_PORT=9090 && node .",
+    "init-test": "node .\\node_modules\\jasmine\\bin\\jasmine.js init",
+    "run-test":"node .\\node_modules\\jasmine\\bin\\jasmine.js"
   },
   "keywords": [],
   "author": "EY Talent Team",
